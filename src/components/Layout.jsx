@@ -1,15 +1,16 @@
 import Header from "./Header"
 import Keyboard from "./Keyboard"
 import Wordboard from "./Wordboard"
+import * as S from './style'
 
 
 function Layout() {
 	return (
-		<div>
+		<S.Layout>
 			<Header />
 			<Wordboard />
 			<Keyboard />
-		</div>
+		</S.Layout>
 	)
 }
 
