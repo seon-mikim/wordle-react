@@ -1,6 +1,7 @@
+import * as S from './style'
 function Header() {
 	return (
-		<div>Header</div>
+		<S.Header>WORDLE</S.Header>
 	)
 }
 
