@@ -1,17 +1,20 @@
-import Header from "./Header"
-import Keyboard from "./Keyboard"
-import Wordboard from "./Wordboard"
-import * as S from './style'
-
+import {  useState } from 'react';
+import Header from './Header';
+import Keyboard from './Keyboard';
+import Wordboard from './Wordboard';
+import * as S from './style';
+import { AttemptData } from '../constants/TriedBoardData';
 
 function Layout() {
-	return (
-		<S.Layout>
-			<Header />
-			<Wordboard />
-			<Keyboard />
-		</S.Layout>
-	)
+  const [attempt, setAttempt] = useState(AttemptData);
+	
+  return (
+    <S.Layout>
+      <Header />
+      <Wordboard attempt={attempt} />
+      <Keyboard />
+    </S.Layout>
+  );
 }
 
-export default Layout
+export default Layout;
