@@ -1,6 +1,8 @@
+import KeyRow from "./KeyRow"
+
 function Keyboard() {
 	return (
-		<div>Keyboard</div>
+		<div><KeyRow/></div>
 	)
 }
 
