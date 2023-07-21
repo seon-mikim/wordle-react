@@ -8,7 +8,7 @@ const initialState = {
 	guessWord: '',
   currentRow: 0,
 	completedRows: [],
-	
+	enter: ''
 };
 
 function WordProvider({ children }) {
