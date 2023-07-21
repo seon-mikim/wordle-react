@@ -11,7 +11,9 @@ function WordReducer(state, action) {
 		case 'REMOVEWORD':
 			return { ...state, guessWord: state.guessWord.slice(0, -1) }
 		case 'RESETWORD':
-			return {...state, guessWord: ''}
+			return { ...state, guessWord: '' }
+		case 'ENTER':
+			return { ...state, enter: action.enter}
 		default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
