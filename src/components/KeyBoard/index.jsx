@@ -1,9 +1,7 @@
-import KeyRow from "./KeyRow"
+import KeyRow from './KeyRow';
 
 function Keyboard() {
-	return (
-		<div><KeyRow/></div>
-	)
+  return <KeyRow />;
 }
 
-export default Keyboard
+export default Keyboard;
