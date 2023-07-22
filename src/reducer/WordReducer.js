@@ -2,8 +2,8 @@ function WordReducer(state, action) {
 	switch (action.type) {
 		case 'ANSWERWORD': 
 			return {...state, answerWord: action.answer }
-    case 'GUESSWORD':
-      return { ...state, guessWord: state.guessWord + action.guessWord };
+		case 'GUESSWORD':
+			return { ...state, guessWord:  state.guessWord + action.guessWord };
     case 'CURRENTROW':
 			return { ...state, currentRow: state.currentRow+1 };
 		case 'COMPLETEDROWS':

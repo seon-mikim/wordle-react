@@ -5,8 +5,8 @@ import { WordContext } from './context/WordContext';
 function App() {
   const answer = 'APPLE';
   const { state, dispatch } = useContext(WordContext);
-  const { guessWord, completedRows } = state;
-
+  const { guessWord, completedRows,currentRow } = state;
+  
   const gameOver = () => {
     alert(`게임 종료 정답은 두구두구🤔${answer}였어요.`);
   };
@@ -31,7 +31,7 @@ function App() {
       nextLine();
       matchLatter();
       if (answer !== guessWord) dispatch({ type: 'RESETWORD' });
-      if (enter) return dispatch({ type: 'ENTER', enter });
+      if (currentRow ===0||currentRow===completedRows[currentRow]) return dispatch({ type: 'ENTER', enter });
     }
   };
 
@@ -40,17 +40,17 @@ function App() {
   };
 
   const handleKeyDown = (event) => {
+    if (guessWord === '') dispatch({ type: 'ANSWERWORD', answer });
     event.preventDefault();
-    dispatch({ type: 'ANSWERWORD', answer });
     const { key, keyCode } = event;
     const checkWord = 65 <= keyCode && keyCode <= 90;
-    // if(guessWord === answer) return event.preventDefault()
     if (checkWord) {
       const word = key.toUpperCase();
-      if (word.length < 6) dispatch({ type: 'GUESSWORD', guessWord: word });
+      if (word.length < 6 && answer !== guessWord) dispatch({ type: 'GUESSWORD', guessWord: word });
     }
     if (key === 'Enter') return handleEnter('enter');
     if (key === 'Backspace') return handleBackspace();
+    if(guessWord === answer) return
   };
 
   useEffect(() => {
