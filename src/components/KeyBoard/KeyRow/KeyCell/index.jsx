@@ -9,9 +9,10 @@ function KeyCell({ keyCell }) {
   const { guessWord } = state;
 
   const handleKeyClick = () => {
-    dispatch({ type: 'ANSWERWORD', answer });
-    if (keyCell !== 'Enter' && guessWord.length < 6) {
+    
+    if (keyCell !== 'Enter' && guessWord.length < 6&& guessWord !== answer) {
       dispatch({ type: 'GUESSWORD', guessWord: keyCell });
+      dispatch({ type: 'ANSWERWORD',answer });
     }
     if (keyCell === 'Enter' && guessWord.length === 5) {
       const enter = 'enter';
@@ -22,7 +23,6 @@ function KeyCell({ keyCell }) {
       }
       return dispatch({ type: 'ENTER', enter });
     }
-    return;
   };
   
 
