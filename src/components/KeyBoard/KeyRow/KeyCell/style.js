@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const KeyCell = styled.div`
   display: flex;
@@ -11,4 +11,25 @@ export const KeyCell = styled.div`
   height: 58px;
   padding: 0 10px;
   border-radius: 4px;
+  ${(props) =>
+    props.enter &&
+    props.match === 'dismatch' &&
+    css`
+      background-color: #787c72;
+      color: #fff;
+    `}
+  ${(props) =>
+    props.enter &&
+    props.match === 'match' &&
+    css`
+      background-color: #6aaa64;
+      color: #fff;
+    `}
+    ${(props) =>
+    props.enter &&
+    props.match === 'includes' &&
+    css`
+      background-color: #c9b458;
+      color: #fff;
+    `}
 `;
