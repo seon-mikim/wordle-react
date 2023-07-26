@@ -3,6 +3,7 @@ import KeyCell from "./KeyCell"
 import { FirstKey, SecondKey, ThirdKey} from '../../../constants/KeyboardData'
 
 function KeyRow() {
+  
 	return (
     <S.KeyBoard>
       <S.KeyRow>
