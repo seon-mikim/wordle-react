@@ -13,7 +13,7 @@ function WordReducer(state, action) {
 		case 'RESETWORD':
 			return { ...state, guessWord: '' }
 		case 'ENTER':
-			return { ...state, enter: action.enter}
+			return { ...state, enter: action.enter }
 		default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
