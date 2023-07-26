@@ -1,43 +1,49 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { WordContext } from '../../../../context/WordContext';
 import * as S from './style';
 
-function KeyCell({ keyCell }) {
-  const answer = 'ABLER';
-  
+function KeyCell({ letter }) {
   const { state, dispatch } = useContext(WordContext);
-  
   const { guessWord } = state;
+  const [keyLetter] = useState(letter);
+  const [matchLetter, setMatchLetter] = useState('');
 
-  const handleValidate = (letter) => {
-    const answerLetterArray = Array.from(answer).map((answerLetter,index) => ({ answerLetter, letterIndex: index, match: answerLetter ===letter[index] }));
-   
-console.log(answerLetterArray)
-  }
-  
-  const handleKeyClick = (event) => {
-    const clickLetter = event.currentTarget.textContent
-    if (keyCell !== 'Enter' && guessWord.length < 6 && guessWord !== answer) {
-      dispatch({ type: 'GUESSWORD', guessWord: clickLetter});
+  const answer = 'APPLE';
+
+  const validateLetter = (word, keyClickLetter) => {
+    if (answer[word.length] === keyClickLetter) return setMatchLetter('match');
+    if (answer.includes(keyClickLetter)) return setMatchLetter('includes');
+    else return setMatchLetter('dismatch');
+  };
+
+  const nextLine = () => {
+    if (answer !== guessWord) {
+      dispatch({ type: 'CURRENTROW' });
+      dispatch({ type: 'COMPLETEDROWS' });
+      dispatch({ type: 'RESETWORD' });
+    }
+  };
+
+  const handleEnterClick = (letter) => {
+    if (letter === 'Enter') {
+      dispatch({ type: 'ENTER', enter: letter.toLowerCase() });
       dispatch({ type: 'ANSWERWORD', answer });
     }
-    if (keyCell === 'Enter' && guessWord.length === 5) {
-      const enter = 'enter';
-      handleValidate(guessWord)
-      if (answer !== guessWord) {
-        dispatch({ type: 'CURRENTROW' });
-        dispatch({ type: 'COMPLETEDROWS' });
-        dispatch({ type: 'RESETWORD' });
-      }
-      
-      return dispatch({ type: 'ENTER', enter });
-    }
-   
+    
+    validateLetter(guessWord, letter);
+    if (guessWord.length === 5) return nextLine();
+  };
+
+  const handleKeyClick = (event) => {
+    const clickLetter = event.currentTarget.textContent;
+    const checkWord = clickLetter !== 'Enter' && guessWord.length < 6 && guessWord !== answer;
+    if (checkWord) dispatch({ type: 'GUESSWORD', guessWord: clickLetter });
+    handleEnterClick(clickLetter);
   };
 
   return (
-    <S.KeyCell key={keyCell} onClick={handleKeyClick}>
-      {keyCell}
+    <S.KeyCell key={keyLetter} onClick={handleKeyClick} match={matchLetter}>
+      {keyLetter}
     </S.KeyCell>
   );
 }
