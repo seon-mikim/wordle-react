@@ -1,4 +1,4 @@
-import WordPiece from './WordPiece/index';
+import WordPiece from './WordPiece';
 import * as S from './style';
 function WordRows({ attempt, tried }) {
 
