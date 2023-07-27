@@ -10,21 +10,18 @@ export const WordPiece = styled.div`
   font-weight: 700;
   font-size: 25px;
   ${(props) =>
-    props.enter &&
     props.match === 'dismatch' &&
     css`
       background-color: #787c7e;
       color: #fff;
     `}
   ${(props) =>
-    props.enter &&
     props.match === 'match' &&
     css`
       background-color: #6aaa64;
       color: #fff;
     `}
     ${(props) =>
-    props.enter &&
     props.match === 'includes' &&
     css`
       background-color: #c9b458;

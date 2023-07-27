@@ -15,17 +15,18 @@ export const KeyCell = styled.div`
    
     props.match === 'dismatch' &&
     css`
-      background-color: #787c72;
+      background-color: #787c7e;
       color: #fff;
     `}
   ${(props) =>
-    
+  
     props.match === 'match' &&
     css`
       background-color: #6aaa64;
       color: #fff;
     `}
     ${(props) =>
+  
     props.match === 'includes' &&
     css`
       background-color: #c9b458;

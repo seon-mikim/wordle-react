@@ -4,16 +4,18 @@ import * as S from './style';
 
 function KeyCell({ letter }) {
   const { state, dispatch } = useContext(WordContext);
-  const { guessWord } = state;
-  const [keyLetter] = useState(letter);
-  const [matchLetter, setMatchLetter] = useState('');
+  const { guessWord, enter, currentRow, completedRows } = state;
 
+  const [matchLetter, setMatchLetter] = useState('');
+  const [isletter, setIsLetter] = useState('');
   const answer = 'APPLE';
 
-  const validateLetter = (word, keyClickLetter) => {
-    if (answer[word.length] === keyClickLetter) return setMatchLetter('match');
-    if (answer.includes(keyClickLetter)) return setMatchLetter('includes');
-    else return setMatchLetter('dismatch');
+  const validateLetter = (keyClickLetter) => {
+    if (currentRow === completedRows.length) {
+      if (answer[guessWord.length] === keyClickLetter) return setMatchLetter('match');
+      if (answer.includes(keyClickLetter)) return setMatchLetter('includes');
+      else return setMatchLetter('dismatch');
+    }
   };
 
   const nextLine = () => {
@@ -29,8 +31,8 @@ function KeyCell({ letter }) {
       dispatch({ type: 'ENTER', enter: letter.toLowerCase() });
       dispatch({ type: 'ANSWERWORD', answer });
     }
-    
-    validateLetter(guessWord, letter);
+
+    validateLetter(letter);
     if (guessWord.length === 5) return nextLine();
   };
 
@@ -42,8 +44,8 @@ function KeyCell({ letter }) {
   };
 
   return (
-    <S.KeyCell key={keyLetter} onClick={handleKeyClick} match={matchLetter}>
-      {keyLetter}
+    <S.KeyCell key={letter} onClick={handleKeyClick} match={matchLetter}>
+      {letter}
     </S.KeyCell>
   );
 }
