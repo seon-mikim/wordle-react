@@ -3,7 +3,7 @@ function WordReducer(state, action) {
 		case 'ANSWERWORD': 
 			return {...state, answerWord: action.answer }
 		case 'GUESSWORD':
-			return { ...state, guessWord:  state.guessWord + action.guessWord };
+			return { ...state, guessWord:  state.guessWord + action.guessWord  };
     case 'CURRENTROW':
 			return { ...state, currentRow: state.currentRow+1 };
 		case 'COMPLETEDROWS':

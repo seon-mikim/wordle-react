@@ -4,12 +4,11 @@ import WordReducer from '../reducer/WordReducer';
 export const WordContext = createContext();
 
 const initialState = {
-	answerWord: null,
-	guessWord: '',
+  answerWord: '',
+  guessWord: '',
   currentRow: 0,
-	completedRows: [],
-	enter: '',
-
+  completedRows: [],
+  enter: '',
 };
 
 function WordProvider({ children }) {

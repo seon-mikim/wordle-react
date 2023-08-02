@@ -2,45 +2,29 @@ import { useContext, useState } from 'react';
 import { WordContext } from '../../../../context/WordContext';
 import * as S from './style';
 
-function KeyCell({ letter }) {
-  const { state, dispatch } = useContext(WordContext);
-  const { guessWord, enter, currentRow, completedRows } = state;
-
-  const [matchLetter, setMatchLetter] = useState('');
-  const [isletter, setIsLetter] = useState('');
+function KeyCell({ letter, onEnter, onDelete, onGuess }) {
+  const { state } = useContext(WordContext);
+  const { guessWord} = state;
+  const [matchLetter] = useState('');
   const answer = 'APPLE';
 
-  const validateLetter = (keyClickLetter) => {
-    if (currentRow === completedRows.length) {
-      if (answer[guessWord.length] === keyClickLetter) return setMatchLetter('match');
-      if (answer.includes(keyClickLetter)) return setMatchLetter('includes');
-      else return setMatchLetter('dismatch');
-    }
-  };
-
-  const nextLine = () => {
-    if (answer !== guessWord) {
-      dispatch({ type: 'CURRENTROW' });
-      dispatch({ type: 'COMPLETEDROWS' });
-      dispatch({ type: 'RESETWORD' });
-    }
-  };
-
-  const handleEnterClick = (letter) => {
-    if (letter === 'Enter') {
-      dispatch({ type: 'ENTER', enter: letter.toLowerCase() });
-      dispatch({ type: 'ANSWERWORD', answer });
-    }
-
-    validateLetter(letter);
-    if (guessWord.length === 5) return nextLine();
-  };
+  // const validateLetter = (keyClickLetter) => {
+  //    if (keyClickLetter === 'Enter') return;
+  //   if (currentRow === completedRows.length && letter === keyClickLetter) {
+  //     if (answer[guessWord.length] === keyClickLetter) return setMatchLetter('match');
+  //     if (answer.includes(keyClickLetter)) return setMatchLetter('includes');
+  //     else return setMatchLetter('dismatch');
+  //   }
+  // };
 
   const handleKeyClick = (event) => {
-    const clickLetter = event.currentTarget.textContent;
-    const checkWord = clickLetter !== 'Enter' && guessWord.length < 6 && guessWord !== answer;
-    if (checkWord) dispatch({ type: 'GUESSWORD', guessWord: clickLetter });
-    handleEnterClick(clickLetter);
+    const clickLetter = event.target.innerText;
+    const checkWord =
+      clickLetter !== 'Enter' && clickLetter !== 'Backspace' && guessWord.length < 6 && guessWord !== answer;
+    if (checkWord) return onGuess(clickLetter)
+    if (clickLetter === 'Enter') return onEnter();
+    if (clickLetter === 'Backspace') return onDelete();
+    
   };
 
   return (

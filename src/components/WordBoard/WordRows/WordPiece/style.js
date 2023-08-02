@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const WordPiece = styled.div`
   display: flex;
@@ -9,22 +9,23 @@ export const WordPiece = styled.div`
   height: 60px;
   font-weight: 700;
   font-size: 25px;
-  ${(props) =>
-    props.match === 'dismatch' &&
-    css`
-      background-color: #787c7e;
+  background-color: #fff;
+  ${(props) => {
+    if (props.match === 'match') {
+      return `
+       background-color: #6aaa64;
+       color: #fff;
+      `;
+    } else if (props.match === 'includes') {
+      return `
+    background-color: #c9b458;
       color: #fff;
-    `}
-  ${(props) =>
-    props.match === 'match' &&
-    css`
-      background-color: #6aaa64;
+    `;
+    } else if (props.match === 'dismatch') {
+      return `
+    background-color: #787c7e;
       color: #fff;
-    `}
-    ${(props) =>
-    props.match === 'includes' &&
-    css`
-      background-color: #c9b458;
-      color: #fff;
-    `}
+    `;
+    }
+  }}
 `;
