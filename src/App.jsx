@@ -5,8 +5,9 @@ import { WordContext } from './context/WordContext';
 function App() {
   const answer = 'APPLE';
   const { state, dispatch } = useContext(WordContext);
-  const { guessWord, completedRows,currentRow } = state;
+  const { guessWord, completedRows, currentRow,} = state;
   
+  console.log(guessWord)
   const gameOver = () => {
     alert(`게임 종료 정답은 두구두구🤔${answer}였어요.`);
   };
@@ -17,7 +18,8 @@ function App() {
     if (completedRows.length === 4) return gameOver();
   };
 
-  const matchLatter = () => {
+
+  const checkWord = () => {
     const matchAnswer = answer.includes(guessWord);
     const includesLetter = Array.from(guessWord).filter((letter) => answer.includes(letter));
     if (completedRows.length <= 3) {
@@ -26,31 +28,37 @@ function App() {
       if (!includesLetter && !matchAnswer) return alert('앗 정답과 달라요');
     }
   };
-  const handleEnter = (enter) => {
-    if (guessWord.length === 5) {
+
+  const handleEnter = () => {
+    if (guessWord.length < 6) {
       nextLine();
-      matchLatter();
-      if (answer !== guessWord) dispatch({ type: 'RESETWORD' });
-      if (currentRow ===0||currentRow===completedRows[currentRow]) return dispatch({ type: 'ENTER', enter });
+      checkWord();
+      if (answer !== guessWord)return dispatch({ type: 'RESETWORD' });
+      if (currentRow === 0 || currentRow === completedRows[currentRow])
+        return dispatch({ type: 'ENTER', enter: 'enter' });
     }
   };
 
+  const setGuessLetter = (letter) => {
+    dispatch({ type: 'ANSWERWORD', answer });
+    dispatch({ type: 'GUESSWORD', guessWord: letter });
+   
+  };
   const handleBackspace = () => {
     dispatch({ type: 'REMOVEWORD' });
   };
 
   const handleKeyDown = (event) => {
-    if (guessWord === '') dispatch({ type: 'ANSWERWORD', answer });
-    event.preventDefault();
     const { key, keyCode } = event;
+    event.preventDefault();
     const checkWord = 65 <= keyCode && keyCode <= 90;
     if (checkWord) {
       const word = key.toUpperCase();
-      if (word.length < 6 && answer !== guessWord) dispatch({ type: 'GUESSWORD', guessWord: word });
+      if (guessWord.length < 6 && answer !== guessWord) return setGuessLetter(word);
     }
-    if (key === 'Enter') return handleEnter('enter');
+    if (key === 'Enter') return handleEnter();
     if (key === 'Backspace') return handleBackspace();
-    if(guessWord === answer) return
+    if (guessWord === answer) return;
   };
 
   useEffect(() => {
@@ -59,7 +67,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   });
 
-  return <Layout />;
+  return <Layout onEnter={handleEnter} onDelete={handleBackspace} onGuess={setGuessLetter} />;
 }
 
 export default App;

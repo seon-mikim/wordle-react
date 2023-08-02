@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as S from './style';
 import { WordContext } from '../../../../context/WordContext';
 
@@ -7,30 +7,34 @@ function WordPiece({ tried, cell }) {
   const { guessWord, currentRow, answerWord, enter, completedRows } = state;
   const [letter, setLetter] = useState('');
   const [matchLetter, setMatchLetter] = useState('');
-  const wordPieceRef = useRef(null);
+
+  console.log();
+
+  const setGuessWord = () => {
+    setLetter(guessWord[cell]);
+  };
+
   const checkGuessWord = () => {
-    if (wordPieceRef.current.innerText) {
-      const validateWord = wordPieceRef.current.innerText === answerWord[cell];
-      const matchLetter = validateWord ? 'match' : 'dismatch';
-      const includesLetter =
-        !validateWord && answerWord.includes(wordPieceRef.current.innerText) ? 'includes' : matchLetter;
-      setMatchLetter(includesLetter);
-    }
+    const isMatch = guessWord[cell] === answerWord[cell];
+    const includesLetter = answerWord.includes(guessWord[cell]);
+    if (isMatch && includesLetter) return setMatchLetter('match');
+    if (!isMatch && includesLetter) return setMatchLetter('includes');
+    else return setMatchLetter('dismatch');
   };
 
   useEffect(() => {
     if (currentRow === tried) {
-      setLetter(guessWord[cell]);
+      setGuessWord();
     }
-  }, [currentRow, tried, guessWord, cell]);
+  }, [currentRow, tried, cell, guessWord]);
 
   useEffect(() => {
-     if (enter && currentRow === completedRows.length) {
-       checkGuessWord();
-     }
-  },[enter, completedRows, currentRow])
+    if ((enter && completedRows[tried] === tried) || currentRow === tried) {
+      checkGuessWord();
+    }
+  }, [enter, completedRows, tried, currentRow]);
   return (
-    <S.WordPiece data-count={`${tried}${cell}`} match={matchLetter} ref={wordPieceRef}>
+    <S.WordPiece data-count={`${tried}${cell}`} match={matchLetter} data-match={matchLetter} data-letter={letter}>
       {letter}
     </S.WordPiece>
   );
